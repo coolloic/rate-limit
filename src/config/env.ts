@@ -1,24 +1,10 @@
 import 'dotenv/config';
 import { z } from 'zod';
 
-const EnvSchema = z
-  .object({
-    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-    LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
-
-    RATE_LIMIT_ALGORITHM: z
-      .enum(['fixed-window', 'sliding-window', 'token-bucket', 'leaky-bucket'])
-      .default('fixed-window'),
-    RATE_LIMIT_MAX_REQUESTS: z.coerce.number().int().positive().default(100),
-    RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(60_000),
-
-    RATE_LIMIT_STORE: z.enum(['memory', 'redis']).default('memory'),
-    REDIS_URL: z.url().optional(),
-  })
-  .refine((env) => env.RATE_LIMIT_STORE !== 'redis' || env.REDIS_URL !== undefined, {
-    error: 'REDIS_URL is required when RATE_LIMIT_STORE=redis',
-    path: ['REDIS_URL'],
-  });
+const EnvSchema = z.object({
+  RATE_LIMIT_MAX_REQUESTS: z.coerce.number().int().positive().default(10),
+  RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(1000),
+});
 
 export type Env = z.infer<typeof EnvSchema>;
 
