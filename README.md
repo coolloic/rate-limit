@@ -225,3 +225,7 @@ docs/design/rate-limiter.md      # design note: use cases, responsibilities, cla
 ```
 
 Engineering rules (SOLID, GoF, strict TypeScript, env config) are in [`CLAUDE.md`](./CLAUDE.md).
+
+## License
+
+[MIT](./LICENSE)
